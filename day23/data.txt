@@ -1,0 +1,33 @@
+set b 65		; b = 65
+set c b			; c = 65
+jnz a 2			; a = 1, so jump 2
+jnz 1 5			; ignored
+mul b 100		; b = 6500
+sub b -100000	; b = 106500
+set c b			; c = 106500
+sub c -17000	; c = 123500
+set f 1			; f = 1 (v)
+	set d 2			; d = 2
+	set e 2			; e = 2 (ii)
+		set g d			; g = 2 (i)
+		mul g e			; g = 4
+		sub g b			; g = -106496
+		jnz g 2			; jump 2
+		set f 0			; ignored
+		sub e -1		; e = 3
+		set g e			; g = 3
+		sub g b			; g = -106497
+		jnz g -8		; jump -8 (i)
+	sub d -1		; d = 3
+	set g d			; g = 3
+	sub g b			; g = -106497
+	jnz g -13		; jump -13 (ii)
+	jnz f 2			; jump 2 (iii)
+	sub h -1		; ignored
+	set g b			; g = 106500 (iii)
+	sub g c			; g = -17000
+	jnz g 2			; jump 2 (iv)
+	jnz 1 3			; jump 3 (end)
+	sub b -17		; b = 106517 (iv)
+jnz 1 -23"      ; jump -23 (v)
+; (end)
