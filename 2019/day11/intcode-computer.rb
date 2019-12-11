@@ -1,6 +1,9 @@
 class IntcodeComputer
+  HALT = 0
+  INPUT = 1
+  OUTPUT = 2
 
-  def initialize(memory, inputs)
+  def initialize(memory, inputs=[])
     #@debug = true
     @memory = memory
     @inputs = inputs
@@ -68,6 +71,10 @@ class IntcodeComputer
     @inputs = inputs
   end
 
+  def interrupt(state, data=nil)
+    [state,data]
+  end
+
   def execute()
     halt = false
     while !halt and @ip < @memory.length
@@ -89,16 +96,16 @@ class IntcodeComputer
       when 3
         if(@inputs.size == 0)
           log("IN", "No inputs availabile")
-          return nil
+          return interrupt(INPUT)
         end
         log("IN", "#{@inputs.first}")
-        put(1, @inputs[0])
+        put(1, @inputs.shift)
         @ip += 2
       when 4
         out = get(1)
         log("OUT", "#{out}")
         @ip += 2
-        return out
+        return interrupt(OUTPUT,out)
       when 5
         in1 = get(1)
         in2 = get(2)
@@ -135,6 +142,6 @@ class IntcodeComputer
         @ip += 1
       end
     end
-    nil
+    return interrupt(HALT)
   end
 end
