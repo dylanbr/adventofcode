@@ -1,4 +1,5 @@
 require "benchmark"
+require "stringio"
 
 @basedir = Dir.pwd
 
